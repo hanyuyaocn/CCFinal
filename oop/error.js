@@ -2,7 +2,7 @@ let n=100
 let particle=[]
 
 function setup() {
-  createCanvas(250, 250);
+  createCanvas(300, 300);
   for(let i=0;i<n;i++){
     particle[i]=new Particle(random(0,20),random(1,50),random(0,6.28),random(0,400))
   }

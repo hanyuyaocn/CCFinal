@@ -1,6 +1,7 @@
 body{
     font-family: 'Courier New', Courier, monospace;
     margin: 0;
+    overflow: hidden;
 }
 
 
@@ -29,18 +30,22 @@ body{
     z-index: 10;
     position: relative;
     text-align: center;
+    overflow:hidden;
 }
 .box-1{
     background-color: grey;
+    overflow: hidden;
 }
 .frame_1 {
     width: 100%;
     height: 100%;
+    overflow: hidden;
 }
 
 .flexbox-content {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 30vh;
+    overflow: hidden;
 }
