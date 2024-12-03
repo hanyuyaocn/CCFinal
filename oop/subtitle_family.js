@@ -82,3 +82,29 @@ function draw() {
   
   
 }
+
+function keyPressed(){
+  if(key=="a"||key=="A"){
+    idx1=0;
+    idx2=0;
+    idx3=0;
+    typing1=true
+    typing2=true
+    typing3=true
+    tex1= "Lily: I think it's been a long time since we last had a picnic."
+    tex2= "James: We should not push Harry too much. Come out and discuss this weekend with us, Harry!"
+    tex3= "Harry: Yeah!"
+  }
+  if(key=="b"||key=="B"){
+    idx1=0;
+    idx2=0;
+    idx3=0;
+    typing1=true
+    typing2=true
+    typing3=true
+    tex1= "James: We should keep him careful, look at these mistakes on his midterm exam paper."
+    tex2= "Lily: You are right. Harry is clever, but he needs more practice."
+    tex3= "Harry: No!"
+    
+  }
+}

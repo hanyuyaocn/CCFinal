@@ -1,219 +1,169 @@
-let o = [0, 102, 204]; // Water color
-let yBubble = [];
-let xBubble = [];
-let sizeBubble = [];
-let vUp = 5;
-let xWeed = [];
-let rd = [];
-let wWeed;
-let waveX1 = 0, waveY1, offset1 = 0, strum = 0.3, angle1;
+class Wall {
+  draw() {
+    stroke(150);
+    strokeWeight(3);
+    line(width / 2, 0, width / 2, height);
+  }
+}
 
-let sunX, sunY, moonX, moonY;
-let angle = 0;
-let r = 1;  // Rotation rate coefficient
-let centerX = 400, centerY = 500;
-let radius = 400;  
+class Desk {
+  draw() {
+    fill(150, 75, 0);
+    rect(50, height - 150, 300, 60); 
+    rect(60, height - 90, 20, 50); 
+    rect(320, height - 90, 20, 50); 
+  }
+}
 
-let accel;
-let omega;
-let density = 10;
-let opacity = 90;
-let length = 200;
-let rising = true;
+class Window {
+  draw() {
+    fill(200, 240, 255);
+    rect(200, 50, 150, 100); 
+    stroke(150);
+    line(200, 100, 350, 100);
+    line(275, 50, 275, 150); 
+  }
+}
 
-let noiseValw;
-let noiseValh;
-let angVel = 0.1;
-let hClock;
+class Book {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  draw() {
+    rect(this.x, this.y, 40, 10); // Book
+  }
+}
+
+class Son {
+  constructor() {
+    this.x = 100;
+    this.y = height - 150;
+    this.waving = false;
+    this.armAngle = 0;
+    this.armDirection = 1;
+  }
+
+  draw() {
+    fill(255, 220, 180);
+    ellipse(this.x, this.y, 40, 40);
+    fill(0, 100, 255);
+    rect(this.x - 15, this.y + 20, 30, 50, 5);
+    stroke(255, 220, 180);
+    strokeWeight(4);
+    if (this.waving) {
+      let waveOffset = sin(this.armAngle) * 20;
+      line(this.x - 15, this.y + 30, this.x - 40, this.y + 30 + waveOffset); // Left arm
+      line(this.x + 15, this.y + 30, this.x + 40, this.y + 30 + waveOffset); // Right arm
+      this.armAngle += 0.1 * this.armDirection;
+      if (this.armAngle > PI / 4 || this.armAngle < -PI / 4) {
+        this.armDirection *= -1;
+      }
+      // Move son out of the room
+      if (this.x < width / 2 - 40) {
+        this.x += 2;
+      }
+    } else {
+      line(this.x - 15, this.y + 30, this.x - 40, this.y + 50); // Left arm
+      line(this.x + 15, this.y + 30, this.x + 40, this.y + 50); // Right arm
+    }
+    stroke(0, 100, 255);
+    line(this.x - 10, this.y + 70, this.x - 10, this.y + 90); // Left leg
+    line(this.x + 10, this.y + 70, this.x + 10, this.y + 90); // Right leg
+  }
+}
+
+class Parent {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.waving = false;
+    this.armAngle = 0;
+    this.armDirection = 1;
+  }
+
+  draw() {
+    
+    fill(255, 220, 180);
+    stroke(255,220,180)
+    ellipse(this.x, this.y - 60, 40, 40);
+    fill(0, 0, 255);
+    stroke(255,0,0)
+    rect(this.x - 20, this.y - 50, 40, 70, 5);
+    stroke(255, 220,180);
+    strokeWeight(4);
+    if (this.waving) {
+      let waveOffset = sin(this.armAngle) * 20;
+      line(this.x - 20, this.y - 40, this.x - 40, this.y - 40 + waveOffset); // Left arm
+      line(this.x + 20, this.y - 40, this.x + 40, this.y - 40 + waveOffset); // Right arm
+      this.armAngle += 0.1 * this.armDirection;
+      if (this.armAngle > PI / 4 || this.armAngle < -PI / 4) {
+        this.armDirection *= -1;
+      }
+    } else {
+      line(this.x - 20, this.y - 40, this.x - 40, this.y - 20); // Left arm
+      line(this.x + 20, this.y - 40, this.x + 40, this.y - 20); // Right arm
+    }
+    stroke(255, 255, 180);
+    line(this.x - 10, this.y + 20, this.x - 10, this.y + 40); // Left leg
+    line(this.x + 10, this.y + 20, this.x + 10, this.y + 40); // Right leg
+  }
+}
+
+class Television {
+  draw() {
+    fill(50);
+    rect(width - 160, height - 160, 120, 80);
+    fill(200);
+    rect(width - 155, height - 155, 110, 70);
+    fill(0);
+    rect(width - 200, height - 80, 200, 30);
+
+  }
+}
+
+let wall, desk, windowPane, son, parents, television, books;
 
 function setup() {
-  createCanvas(800, 500);
+  createCanvas(900, 400);
 
-  // Initialize bubbles
-  for (let i = 0; i < 4; i++) {
-    xBubble[i] = random(50, width - 50);
-    sizeBubble[i] = random(10, 60);
-    yBubble[i] = 400;
+  
+  wall = new Wall();
+  desk = new Desk();
+  windowPane = new Window();
+  son = new Son();
+  books = [];
+  for (let i = 0; i < 5; i++) {
+    books.push(new Book(200, height - 160+5*i));
   }
-
-  // Initialize weeds
-  for (let i = 0; i < 4; i++) {
-    xWeed[i] = random(50, width - 50);
-    rd[i] = random(100);
-  }
-
-  wWeed = random(10);
-  waveY1 = 2 * width / 3;
-  omega = PI / 10;
-  accel = PI / 5000;
-  hClock = height; // Initial position of the clock
+  parents = [new Parent(width / 2 + 100, height - 100), new Parent(width / 2 + 200, height - 100)];
+  television = new Television();
 }
 
 function draw() {
-  // Draw the scenery (sun, moon, water, bubbles, seaweed)
-  drawScenery();
-
-  // Draw the clock as it rises and the visual effects when it stops rising
-  if (rising && hClock >= 200) {
-    drawClock(); // Draw the clock as it's rising
-    hClock -= 2; // Move the clock up
-  }
-
-  if (hClock < 200) {
-    rising = false; 
-    drawVisual(); 
-    drawClock(); 
-  }
-}
-
-function drawScenery() {
-  sunX = centerX + radius * cos(angle);
-  sunY = centerY + radius * sin(angle);
-  moonX = centerX + radius * cos(angle + PI);
-  moonY = centerY + radius * sin(angle + PI);
-
-  if (sunY < height) {
-    background(135, 206, 235, opacity);
-  } else {
-    background(25, 25, 112, opacity);
-  }
-
-  stroke(255);  
-  strokeWeight(2);
-
-  if (sunY < height) {
-    fill(255, 204, 0); 
-    ellipse(sunX, sunY, 80, 80);  
-  }
-
-  if (moonY < height) {
-    fill(200); 
-    ellipse(moonX, moonY, 60, 60); 
-  }
-
-
-  angle += 0.01 * r;
-
- 
-  noStroke();  
-  fill(o);   
- 
-  drawWaves(275, 290, 0.5);
-  drawWaves(275, 290, -0.5);
-
-  // Draw bubbles
-  strokeWeight(1);
-  fill(0, 120, 240);
-  for (let i = 0; i < 4; i++) {
-    circle(xBubble[i], yBubble[i], sizeBubble[i]);
-
- 
-    yBubble[i] -= vUp * noise(sizeBubble[i])*r;
-
-    xBubble[i] += 2 * sin(noise(frameCount * 0.5));
+  background(220);
 
   
-    if (r > 0 && yBubble[i] < 325) { 
-      yBubble[i] = height;
-      xBubble[i] = random(50, width - 50);
-      sizeBubble[i] = random(10, 60);
-    } else if (r < 0 && yBubble[i] > height) {  
-    yBubble[i] = 325;
-    xBubble[i] = random(50, width - 50);
-    sizeBubble[i] = random(10, 60);
-    }
-  }
+  wall.draw();
 
-
-  // Draw seaweed
-  stroke(0, 160, 0);
-  strokeWeight(wWeed);
-  fill(0, 160, 0);
-  for (let i = 0; i < 4; i++) {
-    drawSeaweed(xWeed[i], rd[i]);
-  }
-}
-
-function drawWaves(minY, maxY, sign) {
-  stroke(255);
-  strokeWeight(2);
-  beginShape();
-  vertex(0, height);
-  for (waveX1 = 0; waveX1 < width+50; waveX1 += 10) {
-    angle1 = offset1 + waveX1 * 0.01 * abs(r);
-    waveY1 = map(sign * sin(0.5 * angle1), -strum, strum, minY, maxY);
-    vertex(waveX1, waveY1);
-  }
-  vertex(width, height);
-  endShape();
-  offset1 += 0.1 * abs(r);
-}
-
-function drawSeaweed(x, r) {
-  beginShape();
-  curveVertex(x, height);
-  curveVertex(x - 3 * sin(0.01 * frameCount + PI / 2), height - 60 * noise(r));
-  curveVertex(x - 3 * sin(0.01 * frameCount + PI), height - 105 * noise(r));
-  curveVertex(x - 3 * sin(0.01 * frameCount + 3 * PI / 2), height - 135 * noise(r));
-  curveVertex(x - 3 * sin(0.01 * frameCount), height - 150 * noise(r));
-  endShape(CLOSE);
-}
-
-function mousePressed() {
-  if (mouseButton == LEFT) {
-    r += 0.5;  // Increase sun/moon rotation rate
-  }
-  if (mouseButton == RIGHT) {
-    r -= 0.5;  // Decrease sun/moon rotation rate
-  }
-}
-
-function drawVisual() {
-  noStroke();
-  rectMode(CENTER);
-
-  for (let i = 0; i < 2; i++) {
-    push();
-    translate(mouseX, hClock);
-    for (let angle = 0; angle <= 2 * PI; angle += omega) {
-      push();
-      for (let x = 75; x < length; x += density) {
-        fill(255 - x, 0, x);
-        rotate(angle * Math.sign(r)); 
-        if (i == 0) rect(x, 0, density, density); 
-        else rect(-x, 0, density, density);
-      }
-      pop();
-    }
-    pop();
-  }
-
-  omega += accel * abs(r);  
-  if (omega > 2 * PI || omega < PI / 10) {
-    accel = -accel;
-  }
-}
-
-
-function drawClock() {
   
-  noiseValw = noise(0.1 * frameCount);
-  noiseValh = noise(0.2 * frameCount);
-  let mapClockw = map(noiseValw, 0, 1, 0.3, 1.5);
-  let mapClockh = map(noiseValh, 0, 1, 0.3, 1.5);
+  desk.draw();
+  windowPane.draw();
+  son.draw();
+  books.forEach((book) => book.draw());
+
   
-  stroke(100, 0, 0);
-  strokeWeight(10);
-  noFill();
-  ellipse(mouseX, hClock, 150 * mapClockw, 150 * mapClockh); 
-  
-  
-  strokeWeight(10);
-  line(mouseX, hClock, mouseX + 40 * mapClockw * cos(12 * frameCount), hClock - 40 * mapClockh * sin(12 * frameCount));
+  television.draw();
+  parents.forEach((parent) => parent.draw());
 }
 
 function keyPressed() {
-  if (key === 's') {
-    saveGif('mySketch', 5);
+  if (key === "a" || key === "A") {
+    son.waving = true; // Son starts waving and exits the room
+    parents.forEach((parent) => (parent.waving = true)); 
+  }
+  if (key === "b" || key === "B") {
+    books.push(new Book(200, height -50-20*books.length)); 
   }
 }
