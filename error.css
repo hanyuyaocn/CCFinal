@@ -19,7 +19,7 @@ body{
     /* background-color: coral; */
     text-align: center;
     padding: 80px;
-    
+    color: red;
 }  
 .box {
     display: inline-block;
@@ -30,6 +30,7 @@ body{
     z-index: 10;
     position: relative;
     text-align: center;
+    
 }
 .box-1{
     background-color: grey;
@@ -90,6 +91,7 @@ body{
     font-weight: 60;
     font-style: normal;
     font-size: 1cm;
+    color: red;
 
 }
 .longbar-1{
