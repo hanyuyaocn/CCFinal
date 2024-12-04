@@ -32,7 +32,7 @@ class Book {
   }
 
   draw() {
-    rect(this.x, this.y, 40, 10); // Book
+    rect(this.x, this.y, 40, 10); 
   }
 }
 
@@ -54,8 +54,8 @@ class Son {
     strokeWeight(4);
     if (this.waving) {
       let waveOffset = sin(this.armAngle) * 20;
-      line(this.x - 15, this.y + 30, this.x - 40, this.y + 30 + waveOffset); // Left arm
-      line(this.x + 15, this.y + 30, this.x + 40, this.y + 30 + waveOffset); // Right arm
+      line(this.x - 15, this.y + 30, this.x - 40, this.y + 30 + waveOffset); 
+      line(this.x + 15, this.y + 30, this.x + 40, this.y + 30 + waveOffset); 
       this.armAngle += 0.1 * this.armDirection;
       if (this.armAngle > PI / 4 || this.armAngle < -PI / 4) {
         this.armDirection *= -1;
@@ -65,12 +65,12 @@ class Son {
         this.x += 2;
       }
     } else {
-      line(this.x - 15, this.y + 30, this.x - 40, this.y + 50); // Left arm
-      line(this.x + 15, this.y + 30, this.x + 40, this.y + 50); // Right arm
+      line(this.x - 15, this.y + 30, this.x - 40, this.y + 50); 
+      line(this.x + 15, this.y + 30, this.x + 40, this.y + 50); 
     }
     stroke(0, 100, 255);
-    line(this.x - 10, this.y + 70, this.x - 10, this.y + 90); // Left leg
-    line(this.x + 10, this.y + 70, this.x + 10, this.y + 90); // Right leg
+    line(this.x - 10, this.y + 70, this.x - 10, this.y + 90); 
+    line(this.x + 10, this.y + 70, this.x + 10, this.y + 90); 
   }
 }
 
@@ -95,19 +95,19 @@ class Parent {
     strokeWeight(4);
     if (this.waving) {
       let waveOffset = sin(this.armAngle) * 20;
-      line(this.x - 20, this.y - 40, this.x - 40, this.y - 40 + waveOffset); // Left arm
-      line(this.x + 20, this.y - 40, this.x + 40, this.y - 40 + waveOffset); // Right arm
+      line(this.x - 20, this.y - 40, this.x - 40, this.y - 40 + waveOffset); 
+      line(this.x + 20, this.y - 40, this.x + 40, this.y - 40 + waveOffset);
       this.armAngle += 0.1 * this.armDirection;
       if (this.armAngle > PI / 4 || this.armAngle < -PI / 4) {
         this.armDirection *= -1;
       }
     } else {
-      line(this.x - 20, this.y - 40, this.x - 40, this.y - 20); // Left arm
-      line(this.x + 20, this.y - 40, this.x + 40, this.y - 20); // Right arm
+      line(this.x - 20, this.y - 40, this.x - 40, this.y - 20); 
+      line(this.x + 20, this.y - 40, this.x + 40, this.y - 20); 
     }
     stroke(255, 255, 180);
-    line(this.x - 10, this.y + 20, this.x - 10, this.y + 40); // Left leg
-    line(this.x + 10, this.y + 20, this.x + 10, this.y + 40); // Right leg
+    line(this.x - 10, this.y + 20, this.x - 10, this.y + 40); 
+    line(this.x + 10, this.y + 20, this.x + 10, this.y + 40); 
   }
 }
 
@@ -160,7 +160,7 @@ function draw() {
 
 function keyPressed() {
   if (key === "a" || key === "A") {
-    son.waving = true; // Son starts waving and exits the room
+    son.waving = true; 
     parents.forEach((parent) => (parent.waving = true)); 
   }
   if (key === "b" || key === "B") {
