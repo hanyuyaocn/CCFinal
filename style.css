@@ -37,6 +37,10 @@ body{
     width: 1200px;
     margin: auto;
     flex-wrap: wrap;
+    font-family: "Oxanium", system-ui;
+    font-weight: 60;
+    font-style: normal;
+    font-size: 1cm;
 
 }
 
