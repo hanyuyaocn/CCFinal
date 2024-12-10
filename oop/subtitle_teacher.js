@@ -1,5 +1,5 @@
 let volhistory = [];
-let tex1= "Ken: That's all for today's class. You can do your homework during rest of this class."
+let tex1= "Bob: That's all for today's class. You can do your homework during rest of this class."
 let tex2= ""
 let tex3= ""
 let idx1=0
@@ -91,7 +91,7 @@ function keyPressed(){
     typing1=true
     typing2=true
     typing3=true
-    tex1= "Ken: Wait, what? Why everyone can see my travelling history?"
+    tex1= "Bob: Wait, what? Why everyone can see my travelling history?"
     tex2= "Who posted this online?"
     tex3= "Oh no, the headmaster is calling me. "
   }
@@ -102,7 +102,7 @@ function keyPressed(){
     typing1=true
     typing2=true
     typing3=true
-    tex1= "Ken: Ah, I finally have time to go to hospital. I didn't have enought time to talk with the doctor"
+    tex1= "Bob: Ah, I finally have time to go to hospital. I didn't have enought time to talk with the doctor"
     tex2= "yesterday. But why the headmaster knows this?"
     tex3= ""
     
